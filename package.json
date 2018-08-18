@@ -7,7 +7,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "lint": "prettier --write '{,!(node_modules)/}**/*.{js,jsx}'",
-    "predeploy": "yarn run build",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
   "dependencies": {
