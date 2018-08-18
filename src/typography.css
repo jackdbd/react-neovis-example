@@ -1,0 +1,26 @@
+/*
+  Use this file to define font-face rules
+
+  A single font-family can have multiple fonts (e.g. bold, italic)
+  If you have multiple font formats, put most modern formats first.
+*/
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,900|Lobster|Kalam');
+
+@font-face {
+  font-family: 'InknutAntiqua';
+  font-style: normal;
+  font-weight: normal;
+  src: url('./fonts/Inknut_Antiqua/InknutAntiqua-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'InknutAntiqua';
+  font-style: normal;
+  font-weight: bold;
+  src: url('./fonts/Inknut_Antiqua/InknutAntiqua-ExtraBold.ttf') format('truetype');
+}
+
+/*
+  Some other cool fonts:
+  Syncopate, Quicksand, Aclonica
+*/
