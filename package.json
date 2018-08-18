@@ -2,15 +2,33 @@
   "name": "react-neovis-example",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "react": "^16.4.2",
-    "react-dom": "^16.4.2",
-    "react-scripts": "1.1.4"
-  },
+  "homepage": "https://jackdbd.github.io/react-neovis-example",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "test:verbose": "react-scripts test --env=jsdom --verbose",
+    "test:watch": "react-scripts test --env=jsdom",
+    "test": "CI=true react-scripts test --env=jsdom",
+    "coverage": "codecov",
+    "eject": "react-scripts eject",
+    "lint": "prettier --write '{,!(node_modules)/}**/*.{js,jsx}'",
+    "ci": "yarn run test && yarn run coverage",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  },
+  "dependencies": {
+    "prop-types": "^15.6.2",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "react-scripts": "1.1.4",
+    "react-spinners": "^0.4.4",
+    "styled-components": "^3.4.2"
+  },
+  "devDependencies": {
+    "codecov": "^3.0.4",
+    "enzyme": "^3.4.4",
+    "enzyme-adapter-react-16": "^1.2.0",
+    "gh-pages": "^1.2.0",
+    "prettier": "^1.14.2"
   }
 }
