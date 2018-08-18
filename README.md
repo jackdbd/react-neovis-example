@@ -5,7 +5,10 @@
 
 ### Demo
 
-![A GIF file showing a short demo of the project](https://github.com/jackdbd/react-neovis-example/blob/master/screenshots/TODO.gif "Demo")
+![A PNG file that shows an example of this project](https://github.com/jackdbd/react-neovis-example/blob/master/screenshots/example.png "Example")
+
+![A PNG file that shows where to pick the credentials from a Neo4j sandbox](https://github.com/jackdbd/react-neovis-example/blob/master/screenshots/neo4j-sandbox-credentials.png "Neo4j Sandbox Credentials")
+
 
 Built with:
 
@@ -24,5 +27,7 @@ yarn start
 
 
 ### Credits
+
+Inspired by William Lyon's [Graph Visualization With Neo4j Using Neovis.js](https://medium.com/neo4j/graph-visualization-with-neo4j-using-neovis-js-a2ecaaa7c379).
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
