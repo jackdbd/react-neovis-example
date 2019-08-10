@@ -10,6 +10,11 @@
     "predeploy": "yarn run build",
     "deploy": "gh-pages -d build"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
   "dependencies": {
     "neovis.js": "^1.4.0",
     "prop-types": "^15.7.2",
@@ -19,8 +24,10 @@
     "react-scripts": "3.4.3"
   },
   "devDependencies": {
-    "gh-pages": "^1.2.0",
-    "prettier": "^1.14.2"
+    "gh-pages": "^2.1.1",
+    "husky": "^3.0.3",
+    "prettier": "^1.18.2",
+    "pretty-quick": "^1.11.1"
   },
   "browserslist": {
     "production": [
