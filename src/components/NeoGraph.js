@@ -1,17 +1,24 @@
-import React, { Component } from "react";
-import ResizeAware from "react-resize-aware";
+import React, { useEffect, useRef } from "react";
+import useResizeAware from "react-resize-aware";
 import PropTypes from "prop-types";
+import Neovis from "neovis.js/dist/neovis.js";
 
-class NeoGraph extends Component {
-  constructor(props) {
-    super(props);
-    this.visRef = React.createRef();
-  }
+const NeoGraph = (props) => {
+  const {
+    width,
+    height,
+    containerId,
+    backgroundColor,
+    neo4jUri,
+    neo4jUser,
+    neo4jPassword,
+  } = props;
 
-  componentDidMount() {
-    const { neo4jUri, neo4jUser, neo4jPassword } = this.props;
+  const visRef = useRef();
+
+  useEffect(() => {
     const config = {
-      container_id: this.visRef.current.id,
+      container_id: visRef.current.id,
       server_url: neo4jUri,
       server_user: neo4jUser,
       server_password: neo4jPassword,
@@ -19,46 +26,39 @@ class NeoGraph extends Component {
         Troll: {
           caption: "user_key",
           size: "pagerank",
-          community: "community"
-        }
+          community: "community",
+        },
       },
       relationships: {
         RETWEETS: {
           caption: false,
-          thickness: "count"
-        }
+          thickness: "count",
+        },
       },
       initial_cypher:
-        "MATCH (tw:Tweet)-[rel:HAS_TAG]->(ht:Hashtag) RETURN tw, ht, rel LIMIT 10"
+        "MATCH (tw:Tweet)-[rel:HAS_TAG]->(ht:Hashtag) RETURN tw, ht, rel LIMIT 10",
     };
-    /*
-      Since there is no neovis package on NPM at the moment, we have to use a "trick":
-      we bind Neovis to the window object in public/index.html.js
-    */
-    this.vis = new window.NeoVis.default(config);
-    this.vis.render();
-  }
+    const vis = new Neovis(config);
+    vis.render();
+  }, [neo4jUri, neo4jUser, neo4jPassword]);
 
-  render() {
-    const { width, height, containerId, backgroundColor } = this.props;
-    return (
-      <div
-        id={containerId}
-        ref={this.visRef}
-        style={{
-          width: `${width}px`,
-          height: `${height}px`,
-          backgroundColor: `${backgroundColor}`
-        }}
-      />
-    );
-  }
-}
+  return (
+    <div
+      id={containerId}
+      ref={visRef}
+      style={{
+        width: `${width}px`,
+        height: `${height}px`,
+        backgroundColor: `${backgroundColor}`,
+      }}
+    />
+  );
+};
 
 NeoGraph.defaultProps = {
   width: 600,
   height: 600,
-  backgroundColor: "#d3d3d3"
+  backgroundColor: "#d3d3d3",
 };
 
 NeoGraph.propTypes = {
@@ -68,62 +68,32 @@ NeoGraph.propTypes = {
   neo4jUri: PropTypes.string.isRequired,
   neo4jUser: PropTypes.string.isRequired,
   neo4jPassword: PropTypes.string.isRequired,
-  backgroundColor: PropTypes.string
+  backgroundColor: PropTypes.string,
 };
 
-class ResponsiveNeoGraph extends Component {
-  state = {
-    width: 400,
-    height: 400
-  };
+const ResponsiveNeoGraph = (props) => {
+  const [resizeListener, sizes] = useResizeAware();
 
-  handleResize = ({ width, height }) => {
-    // console.log("resize", width, height);
-    const side = Math.max(width, height) / 2;
-    this.setState({
-      width: side,
-      height: side
-    });
-  };
-
-  render() {
-    const responsiveWidth = this.state.width;
-    const responsiveHeight = this.state.height;
-    const neoGraphProps = {
-      ...this.props,
-      width: responsiveWidth,
-      height: responsiveHeight
-    };
-    return (
-      <ResizeAware
-        style={{ position: "relative" }}
-        onlyEvent
-        onResize={this.handleResize}
-      >
-        <NeoGraph {...neoGraphProps} />
-      </ResizeAware>
-    );
-  }
-}
-
-const responsiveNeoGraphDefaultProps = Object.keys(NeoGraph.defaultProps)
-  .filter(d => d !== "width" && d !== "height")
-  .reduce((accumulator, key) => {
-    return Object.assign(accumulator, { [key]: NeoGraph.defaultProps[key] });
-  }, {});
+  const side = Math.max(sizes.width, sizes.height) / 2;
+  const neoGraphProps = { ...props, width: side, height: side };
+  return (
+    <div style={{ position: "relative" }}>
+      {resizeListener}
+      <NeoGraph {...neoGraphProps} />
+    </div>
+  );
+};
 
 ResponsiveNeoGraph.defaultProps = {
-  ...responsiveNeoGraphDefaultProps
+  backgroundColor: "#d3d3d3",
 };
 
-const responsiveNeoGraphPropTypes = Object.keys(NeoGraph.propTypes)
-  .filter(d => d !== "width" && d !== "height")
-  .reduce((accumulator, key) => {
-    return Object.assign(accumulator, { [key]: NeoGraph.propTypes[key] });
-  }, {});
-
 ResponsiveNeoGraph.propTypes = {
-  ...responsiveNeoGraphPropTypes
+  containerId: PropTypes.string.isRequired,
+  neo4jUri: PropTypes.string.isRequired,
+  neo4jUser: PropTypes.string.isRequired,
+  neo4jPassword: PropTypes.string.isRequired,
+  backgroundColor: PropTypes.string,
 };
 
 export { NeoGraph, ResponsiveNeoGraph };
