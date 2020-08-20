@@ -1,9 +1,9 @@
 import React from "react";
 import { NeoGraph, ResponsiveNeoGraph } from "./NeoGraph";
 
-const NEO4J_URI = "bolt://100.26.163.118:33024";
+const NEO4J_URI = "YOUR-BOLT-URI-HERE";
 const NEO4J_USER = "neo4j";
-const NEO4J_PASSWORD = "dimensions-additives-cares";
+const NEO4J_PASSWORD = "YOUR-NEO4J-PASSWORD-HERE";
 
 const App = () => {
   return (
